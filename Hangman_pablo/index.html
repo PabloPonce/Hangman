@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>The Hangman. Hint its pablo</title>
+   <link href="css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<center>
+    <h1>Lets Play Hangman</h1>
+    <h3>Guess my name</h3>
+<p id="guessing"></p>
+<form name="check">
+<input name="guessBox" type="text" size="10" maxlength="1">
+<input name="button" type="button" value="Check me" onClick="checker()">
+
+<p id="wrongLetters">Wrong Letters:</p>
+<br/>
+
+<img src="https://cdn3.iconfinder.com/data/icons/brain-games/128/Hangman-Game-grey.png"><br/>
+<br>
+<input name="refresh" type="button" value="New Game" onClick="location.reload()">
+</form>
+</center>
+</body>
+
+      <script> 
+
+  //Tthe array letter choices//
+  var letters = [
+  ["P", "A", "B", "L", "O"],
+  ["P","O","N","C","E"],
+  ["R","A","M","I","R","E","Z"]
+    ]
+
+  var random = Math.floor((Math.random()*(letters.length-1))); 
+  var words = letters[random]; 
+
+
+  var guess = new Array(words.length);
+  var attempts = 0;
+
+
+  for (var i = 0; i < guess.length; i++){
+   guess[i] = "_ ";
+  }
+
+
+  function printguess(){
+    for (var i = 0; i < guess.length; i++){
+    var guessing = document.getElementById("guessing");
+    var result = document.createTextNode(guess[i]);
+    guessing.appendChild(result);
+      }
+  }
+
+
+  var checker = function(){
+   var f = document.check; 
+    var b = f.elements["guessBox"]; 
+    var attemptedLetters = b.value;
+    attemptedLetters = attemptedLetters.toUpperCase();
+    for (var i = 0; i < words.length; i++){
+    if(words[i] === attemptedLetters){
+      guess[i] = attemptedLetters + " ";
+      var match = true;
+      }
+      b.value = "";
+    }
+  
+  var guessing = document.getElementById("guessing");
+  guessing.innerHTML=""; 
+  printguess();
+
+  if(!match){
+    var wrongLetters = document.getElementById("wrongLetters");
+    var result = document.createTextNode(" " + attemptedLetters);
+    wrongLetters.appendChild(result); 
+    attempts++;
+    var hangman = document.getElementById("hangman");
+  }
+  
+ 
+  var found = true;
+  for (var i = 0; i < guess.length; i++){
+    if(guess[i] === "_ "){
+      found = false;
+    }
+  }
+  if(found){
+    window.alert("Now Give Him A HIGH_FIVE!");
+  }
+  
+
+  //once you got six wrong letters, you lose
+  if(attempts === 15){
+    window.alert("You Lost :( ");
+  }
+}
+
+function load(){
+  printguess();
+}
+
+window.onload = load;
+
+
+</script>
+
+</html>
